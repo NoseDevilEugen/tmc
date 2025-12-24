@@ -1085,6 +1085,39 @@ bool32 sub_080782C0(void) {
     u8 framestate;
     Entity* entity;
 
+    u32 item;
+    u32 uVar1;
+    //l pressed
+    //todo: additional check if its not actual fusing
+    if ((gPlayerState.playerInput.newInput & INPUT_FUSE) != 0)
+    {
+        //scroll items starting from current
+        if (gSave.stats.equipped[SLOT_A] != ITEM_NONE
+            && gSave.stats.equipped[SLOT_B] != ITEM_NONE)
+        {
+            for (item = gSave.stats.equipped[SLOT_A]; item < ITEM_BOTTLE_EMPTY; item++)
+            {
+                uVar1 = GetInventoryValue(item);//u 
+                if (uVar1 == 1
+                    && gSave.stats.equipped[SLOT_A] != item
+                    && gSave.stats.equipped[SLOT_B] != item
+                    )
+                {
+                    ForceEquipItem(item, EQUIP_SLOT_A);
+                    break;
+                }
+                if (item >= ITEM_BOTTLE_EMPTY - 1)
+                {
+                    item = ITEM_NONE;
+                }
+                if (item == gSave.stats.equipped[SLOT_A] - 1)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
     if (gPlayerState.framestate == PL_STATE_IDLE) {
         framestate = gPlayerState.framestate_last;
     } else {
