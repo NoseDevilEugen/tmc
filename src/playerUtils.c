@@ -1098,13 +1098,19 @@ bool32 sub_080782C0(void) {
             for (item = gSave.stats.equipped[SLOT_A]; item < ITEM_BOTTLE_EMPTY; item++)
             {
                 uVar1 = GetInventoryValue(item);//u 
-                if (uVar1 == 1
-                    && gSave.stats.equipped[SLOT_A] != item
-                    && gSave.stats.equipped[SLOT_B] != item
-                    )
+                if (uVar1 == 1)
                 {
-                    ForceEquipItem(item, EQUIP_SLOT_A);
-                    break;
+                    while (ItemIsSword(item) && ItemIsSword(item+1) && GetInventoryValue(item+1) == 1)
+                    {
+                        item++;
+                    }
+                    if(gSave.stats.equipped[SLOT_A] != item
+                    && gSave.stats.equipped[SLOT_B] != item)
+                    {
+                        ForceEquipItem(item, EQUIP_SLOT_A);
+                        break;
+                    }
+                    
                 }
                 if (item >= ITEM_BOTTLE_EMPTY - 1)
                 {
